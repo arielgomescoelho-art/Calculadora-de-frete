@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Frete</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      padding: 15px;
+    }
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+    }
+    .card {
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 5px rgba(0,0,0,.1);
+    }
+    label {
+      font-weight: bold;
+      font-size: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 4px;
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    .result {
+      font-size: 16px;
+      margin: 6px 0;
+    }
+    .final {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1b5e20;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Calculadora de Frete</h1>
+
+<div class="card">
+  <label>KM Ida</label>
+  <input type="number" id="kmIda">
+
+  <label>KM Volta</label>
+  <input type="number" id="kmVolta">
+
+  <label>Média de Consumo (km/l)</label>
+  <input type="number" id="media">
+
+  <label>Valor do Litro (R$)</label>
+  <input type="number" id="valorLitro">
+</div>
+
+<div class="card">
+  <label>Valor por Tonelada (R$)</label>
+  <input type="number" id="valorTon">
+
+  <label>Toneladas Transportadas</label>
+  <input type="number" id="toneladas">
+
+  <label>Comissão (%)</label>
+  <input type="number" id="comissao">
+</div>
+
+<div class="card">
+  <label>Pedágio (R$)</label>
+  <input type="number" id="pedagio">
+
+  <label>Outros Custos (R$)</label>
+  <input type="number" id="outros">
+</div>
+
+<div class="card">
+  <div class="result" id="kmTotal"></div>
+  <div class="result" id="litros"></div>
+  <div class="result" id="combustivel"></div>
+  <div class="result" id="frete"></div>
+  <div class="result" id="comissaoValor"></div>
+  <div class="final" id="saldo"></div>
+</div>
+
+<script>
+function calcular() {
+  const kmIda = Number(kmIda.value || 0);
+  const kmVolta = Number(kmVolta.value || 0);
+  const media = Number(media.value || 0);
+  const valorLitro = Number(valorLitro.value || 0);
+  const valorTon = Number(valorTon.value || 0);
+  const toneladas = Number(toneladas.value || 0);
+  const comissao = Number(comissao.value || 0);
+  const pedagio = Number(pedagio.value || 0);
+  const outros = Number(outros.value || 0);
+
+  const kmTotal = kmIda + kmVolta;
+  const litros = media > 0 ? kmTotal / media : 0;
+  const custoComb = litros * valorLitro;
+  const valorFrete = valorTon * toneladas;
+  const valorComissao = valorFrete * (comissao / 100);
+  const saldoFinal = valorFrete - custoComb - valorComissao - pedagio - outros;
+
+  document.getElementById("kmTotal").innerText = "KM Total: " + kmTotal.toFixed(2);
+  document.getElementById("litros").innerText = "Litros Consumidos: " + litros.toFixed(2);
+  document.getElementById("combustivel").innerText = "Custo Combustível: R$ " + custoComb.toFixed(2);
+  document.getElementById("frete").innerText = "Valor do Frete: R$ " + valorFrete.toFixed(2);
+  document.getElementById("comissaoValor").innerText = "Comissão: R$ " + valorComissao.toFixed(2);
+  document.getElementById("saldo").innerText = "Saldo Final: R$ " + saldoFinal.toFixed(2);
+}
+
+document.querySelectorAll("input").forEach(i => i.addEventListener("input", calcular));
+</script>
+
+</body>
+</html>
