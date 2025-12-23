@@ -1,178 +1,132 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Comparador de Fretes</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  padding: 12px;
-}
-h1 {
-  text-align: center;
-  color: #2e7d32;
-  font-size: 22px;
-}
-h2 {
-  margin: 8px 0;
-  color: #1b5e20;
-  font-size: 18px;
-}
-.card {
-  background: #fff;
-  padding: 12px;
-  border-radius: 10px;
-  margin-bottom: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.1);
-}
-label {
-  font-weight: bold;
-  font-size: 13px;
-}
-input {
-  width: 100%;
-  padding: 9px;
-  margin: 4px 0 8px;
-  font-size: 15px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-.result {
-  font-size: 14px;
-  margin: 3px 0;
-}
-.final {
-  font-size: 17px;
-  font-weight: bold;
-  color: #1b5e20;
-  margin-top: 6px;
-}
-.grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-}
-@media (min-width: 700px) {
-  .grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-button {
-  width: 100%;
-  padding: 10px;
-  background: #c62828;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  cursor: pointer;
-}
-button:hover {
-  opacity: 0.9;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>FreteDecide</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #2e7d32 0%, #a5d6a7 40%, #e8f5e9 100%);
+      padding: 15px;
+    }
+    h1 {
+      text-align: center;
+      color: #1b5e20;
+      margin-bottom: 5px;
+    }
+    h2 {
+      text-align: center;
+      font-size: 16px;
+      color: #2e7d32;
+      margin-bottom: 15px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .card {
+      background: #fff;
+      padding: 12px;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgba(0,0,0,.15);
+      margin-bottom: 12px;
+    }
+    .card h3 {
+      text-align: center;
+      margin-bottom: 8px;
+      color: #2e7d32;
+    }
+    label {
+      font-weight: bold;
+      font-size: 13px;
+    }
+    input {
+      width: 100%;
+      padding: 7px;
+      margin-top: 4px;
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+    .result {
+      font-size: 14px;
+      margin: 4px 0;
+    }
+    .final {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 8px;
+    }
+    .melhor {
+      border: 2px solid #2e7d32;
+      background: #e8f5e9;
+    }
+  </style>
 </head>
-
 <body>
 
-<h1>Comparador de Fretes</h1>
+<h1>FreteDecide</h1>
+<h2>Compare. Decida. Lucre.</h2>
 
 <div class="grid">
 
-<!-- FRETE A -->
-<div class="card">
-<h2>Frete A</h2>
+  <div class="card" id="cardA">
+    <h3>Frete A</h3>
+    <label>KM Ida</label><input type="number" id="kmIdaA">
+    <label>KM Volta</label><input type="number" id="kmVoltaA">
+    <label>Média (km/l)</label><input type="number" id="mediaA">
+    <label>Valor do Litro</label><input type="number" id="litroA">
+    <label>Valor por Ton</label><input type="number" id="valorTonA">
+    <label>Toneladas</label><input type="number" id="tonA">
+    <label>Comissão (%)</label><input type="number" id="comissaoA">
+    <label>Pedágio</label><input type="number" id="pedagioA">
+    <label>Outros Custos</label><input type="number" id="outrosA">
 
-<label>KM Ida</label><input type="number" id="kmIdaA">
-<label>KM Volta</label><input type="number" id="kmVoltaA">
-<label>Média (km/l)</label><input type="number" id="mediaA">
-<label>Valor do Litro (R$)</label><input type="number" id="valorLitroA">
-<label>Valor por Tonelada (R$)</label><input type="number" id="valorTonA">
-<label>Toneladas</label><input type="number" id="toneladasA">
-<label>Comissão (%)</label><input type="number" id="comissaoA">
-<label>Pedágio (R$)</label><input type="number" id="pedagioA">
-<label>Outros Custos (R$)</label><input type="number" id="outrosA">
+    <div class="result" id="resA"></div>
+  </div>
 
-<button onclick="limpar('A')">Limpar Frete A</button>
-</div>
+  <div class="card" id="cardB">
+    <h3>Frete B</h3>
+    <label>KM Ida</label><input type="number" id="kmIdaB">
+    <label>KM Volta</label><input type="number" id="kmVoltaB">
+    <label>Média (km/l)</label><input type="number" id="mediaB">
+    <label>Valor do Litro</label><input type="number" id="litroB">
+    <label>Valor por Ton</label><input type="number" id="valorTonB">
+    <label>Toneladas</label><input type="number" id="tonB">
+    <label>Comissão (%)</label><input type="number" id="comissaoB">
+    <label>Pedágio</label><input type="number" id="pedagioB">
+    <label>Outros Custos</label><input type="number" id="outrosB">
 
-<!-- FRETE B -->
-<div class="card">
-<h2>Frete B</h2>
-
-<label>KM Ida</label><input type="number" id="kmIdaB">
-<label>KM Volta</label><input type="number" id="kmVoltaB">
-<label>Média (km/l)</label><input type="number" id="mediaB">
-<label>Valor do Litro (R$)</label><input type="number" id="valorLitroB">
-<label>Valor por Tonelada (R$)</label><input type="number" id="valorTonB">
-<label>Toneladas</label><input type="number" id="toneladasB">
-<label>Comissão (%)</label><input type="number" id="comissaoB">
-<label>Pedágio (R$)</label><input type="number" id="pedagioB">
-<label>Outros Custos (R$)</label><input type="number" id="outrosB">
-
-<button onclick="limpar('B')">Limpar Frete B</button>
-</div>
-
-</div>
-
-<div class="grid">
-
-<!-- RESULTADO A -->
-<div class="card">
-<h2>Resultado Frete A</h2>
-<div class="result" id="resA"></div>
-<div class="final" id="saldoA"></div>
-</div>
-
-<!-- RESULTADO B -->
-<div class="card">
-<h2>Resultado Frete B</h2>
-<div class="result" id="resB"></div>
-<div class="final" id="saldoB"></div>
-</div>
+    <div class="result" id="resB"></div>
+  </div>
 
 </div>
 
 <script>
 function calc(prefix) {
-  const g = id => +document.getElementById(id+prefix).value || 0;
-
-  const kmTotal = g("kmIda") + g("kmVolta");
-  const litros = g("media") > 0 ? kmTotal / g("media") : 0;
-  const custoComb = litros * g("valorLitro");
-  const frete = g("valorTon") * g("toneladas");
-  const comissao = frete * (g("comissao") / 100);
-  const pedagio = g("pedagio");
-  const outros = g("outros");
+  const km = (+document.getElementById(`kmIda${prefix}`).value || 0) + (+document.getElementById(`kmVolta${prefix}`).value || 0);
+  const media = +document.getElementById(`media${prefix}`).value || 0;
+  const litros = media > 0 ? km / media : 0;
+  const custoComb = litros * (+document.getElementById(`litro${prefix}`).value || 0);
+  const frete = (+document.getElementById(`valorTon${prefix}`).value || 0) * (+document.getElementById(`ton${prefix}`).value || 0);
+  const comissao = frete * ((+document.getElementById(`comissao${prefix}`).value || 0) / 100);
+  const pedagio = +document.getElementById(`pedagio${prefix}`).value || 0;
+  const outros = +document.getElementById(`outros${prefix}`).value || 0;
   const saldo = frete - custoComb - comissao - pedagio - outros;
 
-  document.getElementById("res"+prefix).innerHTML =
-    `KM Total: ${kmTotal.toFixed(2)}<br>
-     Combustível: R$ ${custoComb.toFixed(2)}<br>
-     Comissão: R$ ${comissao.toFixed(2)}<br>
-     Pedágio: R$ ${pedagio.toFixed(2)}<br>
-     Outros: R$ ${outros.toFixed(2)}<br>
-     Frete Bruto: R$ ${frete.toFixed(2)}`;
-
-  document.getElementById("saldo"+prefix).innerText =
-    "Saldo Final: R$ " + saldo.toFixed(2);
+  document.getElementById(`res${prefix}`).innerHTML = `KM: ${km.toFixed(1)}<br>Comb.: R$ ${custoComb.toFixed(2)}<br>Frete: R$ ${frete.toFixed(2)}<br>Comissão: R$ ${comissao.toFixed(2)}<br><b>Saldo: R$ ${saldo.toFixed(2)}</b>`;
+  return saldo;
 }
 
-function limpar(prefix) {
-  document.querySelectorAll(`input[id$="${prefix}"]`).forEach(i => i.value = "");
-  document.getElementById("res"+prefix).innerHTML = "";
-  document.getElementById("saldo"+prefix).innerText = "";
+function atualizar() {
+  const a = calc('A');
+  const b = calc('B');
+  document.getElementById('cardA').classList.toggle('melhor', a > b);
+  document.getElementById('cardB').classList.toggle('melhor', b > a);
 }
 
-document.querySelectorAll("input").forEach(i =>
-  i.addEventListener("input", () => {
-    calc("A");
-    calc("B");
-  })
-);
+document.querySelectorAll('input').forEach(i => i.addEventListener('input', atualizar));
 </script>
 
 </body>
