@@ -6,92 +6,69 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:
-    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
-    url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
-  background-size:cover;
-  background-attachment:fixed;
-  padding:15px;
-  color:#fff;
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+  padding: 16px;
 }
 
-h1{
-  text-align:center;
-  margin-bottom:5px;
+h1 {
+  text-align: center;
+  color: #0d47a1;
+  margin-bottom: 4px;
 }
 
-h2{
-  text-align:center;
-  font-size:14px;
-  font-weight:normal;
-  margin-bottom:20px;
-  opacity:.9;
+.slogan {
+  text-align: center;
+  color: #555;
+  margin-bottom: 20px;
 }
 
-.container{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
+.comparacao {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 10px;
 }
 
-.card{
-  background:rgba(255,255,255,.95);
-  color:#000;
-  padding:15px;
-  border-radius:10px;
+.frete {
+  min-width: 360px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.1);
 }
 
-.card h3{
-  text-align:center;
-  margin-top:0;
+.frete h2 {
+  text-align: center;
+  color: #2e7d32;
 }
 
-label{
-  font-size:13px;
-  font-weight:bold;
+label {
+  font-size: 13px;
+  font-weight: bold;
 }
 
-input{
-  width:100%;
-  padding:8px;
-  margin:4px 0 10px;
-  font-size:15px;
+input {
+  width: 100%;
+  padding: 7px;
+  margin: 4px 0 10px;
+  font-size: 15px;
 }
 
-.result{
-  font-size:14px;
-  margin:4px 0;
+.result {
+  font-size: 14px;
+  margin: 4px 0;
 }
 
-.final{
-  font-size:16px;
-  font-weight:bold;
-  margin-top:8px;
-}
-
-.best{
-  background:#c8e6c9;
-  padding:10px;
-  border-radius:8px;
-  margin-top:10px;
-}
-
-button{
-  width:100%;
-  padding:12px;
-  font-size:16px;
-  border:none;
-  border-radius:8px;
-  background:#2e7d32;
-  color:#fff;
-  margin-top:15px;
-}
-
-@media(max-width:800px){
-  .container{grid-template-columns:1fr;}
+.saldo {
+  margin-top: 8px;
+  padding: 8px;
+  background: #e8f5e9;
+  font-weight: bold;
+  color: #1b5e20;
+  border-radius: 6px;
 }
 </style>
 </head>
@@ -99,89 +76,120 @@ button{
 <body>
 
 <h1>LucroFrete PRO</h1>
-<h2>Compare. Decida. Lucre.</h2>
+<div class="slogan">Compare. Decida. Lucre.</div>
 
-<div class="container">
+<div class="comparacao">
 
-<!-- FRETE A -->
-<div class="card">
-<h3>Frete A</h3>
+  <!-- FRETE A -->
+  <div class="frete">
+    <h2>Frete A</h2>
 
-<label>KM Ida</label><input id="a_kmIda" type="number">
-<label>KM Volta</label><input id="a_kmVolta" type="number">
-<label>Média (km/l)</label><input id="a_media" type="number">
-<label>Valor Litro</label><input id="a_litro" type="number">
+    <label>Origem</label>
+    <input id="origemA">
 
-<label>Valor Tonelada</label><input id="a_ton" type="number">
-<label>Toneladas</label><input id="a_tons" type="number">
-<label>Comissão (%)</label><input id="a_comissao" type="number">
+    <label>Destino</label>
+    <input id="destinoA">
 
-<label>Pedágio</label><input id="a_pedagio" type="number">
-<label>Outros Custos</label><input id="a_outros" type="number">
+    <label>KM Ida</label>
+    <input type="number" id="kmIdaA">
 
-<div class="result" id="a_result"></div>
+    <label>KM Volta</label>
+    <input type="number" id="kmVoltaA">
+
+    <label>Média (km/l)</label>
+    <input type="number" id="mediaA">
+
+    <label>Valor Litro (R$)</label>
+    <input type="number" id="litroA">
+
+    <label>Valor Tonelada (R$)</label>
+    <input type="number" id="tonA">
+
+    <label>Toneladas</label>
+    <input type="number" id="qtdA">
+
+    <label>Comissão (%)</label>
+    <input type="number" id="comA">
+
+    <label>Pedágio (R$)</label>
+    <input type="number" id="pedA">
+
+    <label>Outros Custos (R$)</label>
+    <input type="number" id="outA">
+
+    <div class="result" id="resA"></div>
+    <div class="saldo" id="saldoA"></div>
+  </div>
+
+  <!-- FRETE B -->
+  <div class="frete">
+    <h2>Frete B</h2>
+
+    <label>Origem</label>
+    <input id="origemB">
+
+    <label>Destino</label>
+    <input id="destinoB">
+
+    <label>KM Ida</label>
+    <input type="number" id="kmIdaB">
+
+    <label>KM Volta</label>
+    <input type="number" id="kmVoltaB">
+
+    <label>Média (km/l)</label>
+    <input type="number" id="mediaB">
+
+    <label>Valor Litro (R$)</label>
+    <input type="number" id="litroB">
+
+    <label>Valor Tonelada (R$)</label>
+    <input type="number" id="tonB">
+
+    <label>Toneladas</label>
+    <input type="number" id="qtdB">
+
+    <label>Comissão (%)</label>
+    <input type="number" id="comB">
+
+    <label>Pedágio (R$)</label>
+    <input type="number" id="pedB">
+
+    <label>Outros Custos (R$)</label>
+    <input type="number" id="outB">
+
+    <div class="result" id="resB"></div>
+    <div class="saldo" id="saldoB"></div>
+  </div>
+
 </div>
-
-<!-- FRETE B -->
-<div class="card">
-<h3>Frete B</h3>
-
-<label>KM Ida</label><input id="b_kmIda" type="number">
-<label>KM Volta</label><input id="b_kmVolta" type="number">
-<label>Média (km/l)</label><input id="b_media" type="number">
-<label>Valor Litro</label><input id="b_litro" type="number">
-
-<label>Valor Tonelada</label><input id="b_ton" type="number">
-<label>Toneladas</label><input id="b_tons" type="number">
-<label>Comissão (%)</label><input id="b_comissao" type="number">
-
-<label>Pedágio</label><input id="b_pedagio" type="number">
-<label>Outros Custos</label><input id="b_outros" type="number">
-
-<div class="result" id="b_result"></div>
-</div>
-
-</div>
-
-<div class="card best" id="comparacao"></div>
-
-<button onclick="salvar()">💾 Salvar Comparação</button>
 
 <script>
-function calc(prefix){
-  const g = id => Number(document.getElementById(prefix+id).value||0);
-  const km = g("_kmIda")+g("_kmVolta");
-  const litros = g("_media")>0?km/g("_media"):0;
-  const comb = litros*g("_litro");
-  const frete = g("_ton")*g("_tons");
-  const com = frete*(g("_comissao")/100);
-  const saldo = frete-comb-com-g("_pedagio")-g("_outros");
-  return {km,comb,frete,com,saldo};
+function calc(prefix) {
+  const km = (+document.getElementById("kmIda"+prefix).value||0) +
+             (+document.getElementById("kmVolta"+prefix).value||0);
+  const media = +document.getElementById("media"+prefix).value||0;
+  const litros = media>0 ? km/media : 0;
+  const combustivel = litros*(+document.getElementById("litro"+prefix).value||0);
+  const frete = (+document.getElementById("ton"+prefix).value||0) *
+                (+document.getElementById("qtd"+prefix).value||0);
+  const com = frete*(+document.getElementById("com"+prefix).value||0)/100;
+  const ped = +document.getElementById("ped"+prefix).value||0;
+  const out = +document.getElementById("out"+prefix).value||0;
+  const saldo = frete - combustivel - com - ped - out;
+
+  document.getElementById("res"+prefix).innerText =
+    `KM: ${km.toFixed(1)} | Custo: R$ ${(combustivel+ped+out+com).toFixed(2)}`;
+
+  document.getElementById("saldo"+prefix).innerText =
+    `Saldo Final: R$ ${saldo.toFixed(2)}`;
 }
 
-function atualizar(){
-  const A = calc("a");
-  const B = calc("b");
-
-  document.getElementById("a_result").innerHTML =
-    `KM: ${A.km}<br>Custo: R$ ${A.comb.toFixed(2)}<br>Comissão: R$ ${A.com.toFixed(2)}<br><b>Saldo: R$ ${A.saldo.toFixed(2)}</b>`;
-
-  document.getElementById("b_result").innerHTML =
-    `KM: ${B.km}<br>Custo: R$ ${B.comb.toFixed(2)}<br>Comissão: R$ ${B.com.toFixed(2)}<br><b>Saldo: R$ ${B.saldo.toFixed(2)}</b>`;
-
-  const melhor = A.saldo>B.saldo?"Frete A":"Frete B";
-  const diff = Math.abs(A.saldo-B.saldo).toFixed(2);
-
-  document.getElementById("comparacao").innerHTML =
-    `🔥 Melhor opção: <b>${melhor}</b><br>Diferença: R$ ${diff}`;
-}
-
-document.querySelectorAll("input").forEach(i=>i.addEventListener("input", atualizar));
-
-function salvar(){
-  localStorage.setItem("LucroFreteUltima",document.getElementById("comparacao").innerHTML);
-  alert("Comparação salva!");
-}
+document.querySelectorAll("input").forEach(i=>{
+  i.addEventListener("input",()=>{
+    calc("A"); calc("B");
+  });
+});
 </script>
 
 </body>
