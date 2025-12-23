@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>FreteDecide</title>
+  <title>LucroFrete PRO</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
@@ -13,17 +13,17 @@
     h1 {
       text-align: center;
       color: #1b5e20;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
     h2 {
       text-align: center;
-      font-size: 16px;
+      font-size: 14px;
       color: #2e7d32;
       margin-bottom: 15px;
     }
     .grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
     .card {
@@ -31,102 +31,122 @@
       padding: 12px;
       border-radius: 10px;
       box-shadow: 0 3px 8px rgba(0,0,0,.15);
-      margin-bottom: 12px;
     }
     .card h3 {
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: #2e7d32;
     }
     label {
+      font-size: 12px;
       font-weight: bold;
-      font-size: 13px;
     }
     input {
       width: 100%;
-      padding: 7px;
-      margin-top: 4px;
-      margin-bottom: 8px;
-      font-size: 15px;
+      padding: 6px;
+      margin: 3px 0 6px 0;
+      font-size: 14px;
     }
     .result {
-      font-size: 14px;
-      margin: 4px 0;
+      font-size: 13px;
+      margin-top: 6px;
     }
     .final {
-      font-size: 16px;
       font-weight: bold;
-      margin-top: 8px;
+      margin-top: 6px;
     }
     .melhor {
       border: 2px solid #2e7d32;
       background: #e8f5e9;
     }
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 15px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #2e7d32;
+      color: #fff;
+    }
   </style>
 </head>
 <body>
 
-<h1>FreteDecide</h1>
+<h1>LucroFrete PRO</h1>
 <h2>Compare. Decida. Lucre.</h2>
 
-<div class="grid">
+<div class="grid" id="fretes"></div>
 
-  <div class="card" id="cardA">
-    <h3>Frete A</h3>
-    <label>KM Ida</label><input type="number" id="kmIdaA">
-    <label>KM Volta</label><input type="number" id="kmVoltaA">
-    <label>Média (km/l)</label><input type="number" id="mediaA">
-    <label>Valor do Litro</label><input type="number" id="litroA">
-    <label>Valor por Ton</label><input type="number" id="valorTonA">
-    <label>Toneladas</label><input type="number" id="tonA">
-    <label>Comissão (%)</label><input type="number" id="comissaoA">
-    <label>Pedágio</label><input type="number" id="pedagioA">
-    <label>Outros Custos</label><input type="number" id="outrosA">
-
-    <div class="result" id="resA"></div>
-  </div>
-
-  <div class="card" id="cardB">
-    <h3>Frete B</h3>
-    <label>KM Ida</label><input type="number" id="kmIdaB">
-    <label>KM Volta</label><input type="number" id="kmVoltaB">
-    <label>Média (km/l)</label><input type="number" id="mediaB">
-    <label>Valor do Litro</label><input type="number" id="litroB">
-    <label>Valor por Ton</label><input type="number" id="valorTonB">
-    <label>Toneladas</label><input type="number" id="tonB">
-    <label>Comissão (%)</label><input type="number" id="comissaoB">
-    <label>Pedágio</label><input type="number" id="pedagioB">
-    <label>Outros Custos</label><input type="number" id="outrosB">
-
-    <div class="result" id="resB"></div>
-  </div>
-
-</div>
+<button onclick="salvar()">💾 Salvar comparação</button>
 
 <script>
-function calc(prefix) {
-  const km = (+document.getElementById(`kmIda${prefix}`).value || 0) + (+document.getElementById(`kmVolta${prefix}`).value || 0);
-  const media = +document.getElementById(`media${prefix}`).value || 0;
-  const litros = media > 0 ? km / media : 0;
-  const custoComb = litros * (+document.getElementById(`litro${prefix}`).value || 0);
-  const frete = (+document.getElementById(`valorTon${prefix}`).value || 0) * (+document.getElementById(`ton${prefix}`).value || 0);
-  const comissao = frete * ((+document.getElementById(`comissao${prefix}`).value || 0) / 100);
-  const pedagio = +document.getElementById(`pedagio${prefix}`).value || 0;
-  const outros = +document.getElementById(`outros${prefix}`).value || 0;
-  const saldo = frete - custoComb - comissao - pedagio - outros;
+const maxHistorico = 10;
 
-  document.getElementById(`res${prefix}`).innerHTML = `KM: ${km.toFixed(1)}<br>Comb.: R$ ${custoComb.toFixed(2)}<br>Frete: R$ ${frete.toFixed(2)}<br>Comissão: R$ ${comissao.toFixed(2)}<br><b>Saldo: R$ ${saldo.toFixed(2)}</b>`;
+function criarFrete(letra) {
+  return `
+  <div class="card" id="card${letra}">
+    <h3>Frete ${letra}</h3>
+    <label>Origem</label><input id="origem${letra}">
+    <label>Destino</label><input id="destino${letra}">
+    <label>KM Ida</label><input type="number" id="kmIda${letra}">
+    <label>KM Volta</label><input type="number" id="kmVolta${letra}">
+    <label>Média (km/l)</label><input type="number" id="media${letra}">
+    <label>Valor do Litro</label><input type="number" id="litro${letra}">
+    <label>Valor por Ton</label><input type="number" id="valorTon${letra}">
+    <label>Toneladas</label><input type="number" id="ton${letra}">
+    <label>Comissão (%)</label><input type="number" id="comissao${letra}">
+    <label>Pedágio</label><input type="number" id="pedagio${letra}">
+    <label>Outros Custos</label><input type="number" id="outros${letra}">
+    <div class="result" id="res${letra}"></div>
+  </div>`;
+}
+
+document.getElementById('fretes').innerHTML = criarFrete('A') + criarFrete('B') + criarFrete('C');
+
+document.querySelectorAll('input').forEach(i => i.addEventListener('input', atualizar));
+
+function calcular(l) {
+  const km = (+kmIda(l) + +kmVolta(l));
+  const media = +get(`media${l}`);
+  const litros = media > 0 ? km / media : 0;
+  const custo = litros * +get(`litro${l}`);
+  const frete = +get(`valorTon${l}`) * +get(`ton${l}`);
+  const com = frete * (+get(`comissao${l}`) / 100);
+  const saldo = frete - custo - com - +get(`pedagio${l}`) - +get(`outros${l}`);
+
+  document.getElementById(`res${l}`).innerHTML = `Origem: ${get(`origem${l}`)}<br>Destino: ${get(`destino${l}`)}<br>KM: ${km.toFixed(1)}<br>Comb: R$ ${custo.toFixed(2)}<br>Comissão: R$ ${com.toFixed(2)}<br><b>Saldo: R$ ${saldo.toFixed(2)}</b>`;
   return saldo;
 }
 
 function atualizar() {
-  const a = calc('A');
-  const b = calc('B');
-  document.getElementById('cardA').classList.toggle('melhor', a > b);
-  document.getElementById('cardB').classList.toggle('melhor', b > a);
+  const a = calcular('A');
+  const b = calcular('B');
+  const c = calcular('C');
+
+  ['A','B','C'].forEach(l => document.getElementById(`card${l}`).classList.remove('melhor'));
+  const maior = Math.max(a,b,c);
+  if (maior === a) cardA.classList.add('melhor');
+  if (maior === b) cardB.classList.add('melhor');
+  if (maior === c) cardC.classList.add('melhor');
 }
 
-document.querySelectorAll('input').forEach(i => i.addEventListener('input', atualizar));
+function salvar() {
+  const dados = { data: new Date().toLocaleString(), A: card('A'), B: card('B'), C: card('C') };
+  const hist = JSON.parse(localStorage.getItem('lucrofrete')) || [];
+  hist.unshift(dados);
+  if (hist.length > maxHistorico) hist.pop();
+  localStorage.setItem('lucrofrete', JSON.stringify(hist));
+  alert('Comparação salva!');
+}
+
+function card(l) {
+  return document.getElementById(`res${l}`).innerText;
+}
+
+function get(id){ return document.getElementById(id).value || 0; }
+function kmIda(l){ return +get(`kmIda${l}`); }
+function kmVolta(l){ return +get(`kmVolta${l}`); }
 </script>
 
 </body>
