@@ -16,35 +16,35 @@
       color: #2e7d32;
     }
     h2 {
-      margin-top: 20px;
       color: #1b5e20;
+      margin-bottom: 10px;
     }
     .card {
       background: #fff;
       padding: 15px;
       border-radius: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
       box-shadow: 0 2px 5px rgba(0,0,0,.1);
     }
     input {
       width: 100%;
       padding: 8px;
-      margin: 6px 0;
+      margin: 5px 0;
       font-size: 15px;
     }
-    .resultado {
-      font-size: 16px;
-      margin: 6px 0;
+    .result {
+      font-size: 15px;
+      margin: 4px 0;
     }
     .final {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: bold;
+      margin-top: 8px;
     }
     .melhor {
       font-size: 20px;
       font-weight: bold;
       text-align: center;
-      margin-top: 15px;
       color: #2e7d32;
     }
   </style>
@@ -70,7 +70,12 @@
   <input id="pedagioA" type="number" placeholder="Pedágio">
   <input id="outrosA" type="number" placeholder="Outros Custos">
 
-  <div class="resultado" id="resultadoA"></div>
+  <div class="result" id="kmTotalA"></div>
+  <div class="result" id="litrosA"></div>
+  <div class="result" id="combustivelA"></div>
+  <div class="result" id="freteA"></div>
+  <div class="result" id="comissaoValorA"></div>
+  <div class="final" id="saldoA"></div>
 </div>
 
 <!-- FRETE B -->
@@ -89,46 +94,53 @@
   <input id="pedagioB" type="number" placeholder="Pedágio">
   <input id="outrosB" type="number" placeholder="Outros Custos">
 
-  <div class="resultado" id="resultadoB"></div>
+  <div class="result" id="kmTotalB"></div>
+  <div class="result" id="litrosB"></div>
+  <div class="result" id="combustivelB"></div>
+  <div class="result" id="freteB"></div>
+  <div class="result" id="comissaoValorB"></div>
+  <div class="final" id="saldoB"></div>
 </div>
 
+<!-- COMPARAÇÃO -->
 <div class="card">
   <div class="melhor" id="melhorFrete"></div>
 </div>
 
 <script>
-function calcularFrete(prefixo) {
-  const kmIda = Number(document.getElementById("kmIda" + prefixo).value || 0);
-  const kmVolta = Number(document.getElementById("kmVolta" + prefixo).value || 0);
-  const media = Number(document.getElementById("media" + prefixo).value || 0);
-  const valorLitro = Number(document.getElementById("valorLitro" + prefixo).value || 0);
-  const valorTon = Number(document.getElementById("valorTon" + prefixo).value || 0);
-  const toneladas = Number(document.getElementById("toneladas" + prefixo).value || 0);
-  const comissao = Number(document.getElementById("comissao" + prefixo).value || 0);
-  const pedagio = Number(document.getElementById("pedagio" + prefixo).value || 0);
-  const outros = Number(document.getElementById("outros" + prefixo).value || 0);
+function calcular(prefixo) {
+  const kmIda = Number(document.getElementById("kmIda"+prefixo).value || 0);
+  const kmVolta = Number(document.getElementById("kmVolta"+prefixo).value || 0);
+  const media = Number(document.getElementById("media"+prefixo).value || 0);
+  const valorLitro = Number(document.getElementById("valorLitro"+prefixo).value || 0);
+  const valorTon = Number(document.getElementById("valorTon"+prefixo).value || 0);
+  const toneladas = Number(document.getElementById("toneladas"+prefixo).value || 0);
+  const comissao = Number(document.getElementById("comissao"+prefixo).value || 0);
+  const pedagio = Number(document.getElementById("pedagio"+prefixo).value || 0);
+  const outros = Number(document.getElementById("outros"+prefixo).value || 0);
 
   const kmTotal = kmIda + kmVolta;
   const litros = media > 0 ? kmTotal / media : 0;
   const combustivel = litros * valorLitro;
   const frete = valorTon * toneladas;
   const valorComissao = frete * (comissao / 100);
+  const saldo = frete - combustivel - valorComissao - pedagio - outros;
 
-  return frete - combustivel - valorComissao - pedagio - outros;
+  document.getElementById("kmTotal"+prefixo).innerText = "KM Total: " + kmTotal.toFixed(2);
+  document.getElementById("litros"+prefixo).innerText = "Litros: " + litros.toFixed(2);
+  document.getElementById("combustivel"+prefixo).innerText = "Combustível: R$ " + combustivel.toFixed(2);
+  document.getElementById("frete"+prefixo).innerText = "Frete: R$ " + frete.toFixed(2);
+  document.getElementById("comissaoValor"+prefixo).innerText = "Comissão: R$ " + valorComissao.toFixed(2);
+  document.getElementById("saldo"+prefixo).innerText = "Saldo Final: R$ " + saldo.toFixed(2);
+
+  return saldo;
 }
 
 function calcularTudo() {
-  const saldoA = calcularFrete("A");
-  const saldoB = calcularFrete("B");
-
-  document.getElementById("resultadoA").innerText =
-    "Saldo Frete A: R$ " + saldoA.toFixed(2);
-
-  document.getElementById("resultadoB").innerText =
-    "Saldo Frete B: R$ " + saldoB.toFixed(2);
+  const saldoA = calcular("A");
+  const saldoB = calcular("B");
 
   let melhor = "Empate entre os fretes";
-
   if (saldoA > saldoB) melhor = "✅ Frete A é melhor";
   if (saldoB > saldoA) melhor = "✅ Frete B é melhor";
 
