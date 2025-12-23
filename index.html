@@ -20,6 +20,7 @@ h1{
 .container{
   display:flex;
   gap:12px;
+  flex-wrap: wrap;
 }
 
 .card{
@@ -28,7 +29,8 @@ h1{
   padding:12px;
   box-shadow:0 2px 6px rgba(0,0,0,.1);
   border:3px solid transparent;
-  width:50%;
+  width:48%;
+  box-sizing: border-box;
 }
 
 .card.highlight{
@@ -53,6 +55,7 @@ input{
   width:100%;
   padding:6px;
   font-size:14px;
+  margin-bottom:4px;
 }
 
 .result{
@@ -65,6 +68,32 @@ input{
   font-size:16px;
   font-weight:bold;
   color:#1b5e20;
+  text-align:center;
+}
+
+#resumo{
+  margin-top:20px;
+  padding:12px;
+  background:#fff;
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(0,0,0,.1);
+}
+#resumo h2{
+  text-align:center;
+  color:#2e7d32;
+}
+#resumo table{
+  width:100%;
+  border-collapse: collapse;
+  margin-top:10px;
+}
+#resumo th, #resumo td{
+  border:1px solid #ddd;
+  padding:6px;
+  text-align:center;
+}
+#resumo th{
+  background:#f1f8f4;
 }
 </style>
 </head>
@@ -135,10 +164,98 @@ input{
 
 </div>
 
+<!-- RESUMO FINAL -->
+<div id="resumo">
+<h2>Resumo Final</h2>
+<table>
+<thead>
+<tr>
+<th>Frete</th>
+<th>KM Total</th>
+<th>Frete Bruto</th>
+<th>Diesel</th>
+<th>Comissão</th>
+<th>Pedágio</th>
+<th>Outros</th>
+<th>Lucro Líquido</th>
+</tr>
+</thead>
+<tbody>
+<tr id="resumoA">
+<td>Frete A</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr id="resumoB">
+<td>Frete B</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+
 <script>
 function calcular(p){
   const km =
     (+document.getElementById("kmIda"+p).value||0)+
     (+document.getElementById("kmVolta"+p).value||0);
 
-  const media = +do
+  const media = +document.getElementById("media"+p).value||0;
+  const litro = +document.getElementById("litro"+p).value||0;
+  const valorTon = +document.getElementById("valorTon"+p).value||0;
+  const ton = +document.getElementById("ton"+p).value||0;
+  const com = +document.getElementById("com"+p).value||0;
+  const ped = +document.getElementById("ped"+p).value||0;
+  const out = +document.getElementById("out"+p).value||0;
+
+  const diesel = media>0 ? (km/media)*litro : 0;
+  const bruto = valorTon*ton;
+  const comissao = bruto*(com/100);
+  const saldo = bruto - diesel - comissao - ped - out;
+
+  // Atualiza card
+  document.getElementById("km"+p).innerText = `KM Total: ${km}`;
+  document.getElementById("freteBruto"+p).innerText = `Frete Bruto: R$ ${bruto.toFixed(2)}`;
+  document.getElementById("diesel"+p).innerText = `Diesel: R$ ${diesel.toFixed(2)}`;
+  document.getElementById("comissao"+p).innerText = `Comissão: R$ ${comissao.toFixed(2)}`;
+  document.getElementById("saldo"+p).innerText = `Lucro Líquido: R$ ${saldo.toFixed(2)}`;
+
+  // Atualiza resumo
+  const resumo = document.getElementById("resumo"+p);
+  resumo.cells[1].innerText = km;
+  resumo.cells[2].innerText = bruto.toFixed(2);
+  resumo.cells[3].innerText = diesel.toFixed(2);
+  resumo.cells[4].innerText = comissao.toFixed(2);
+  resumo.cells[5].innerText = ped.toFixed(2);
+  resumo.cells[6].innerText = out.toFixed(2);
+  resumo.cells[7].innerText = saldo.toFixed(2);
+
+  return saldo;
+}
+
+const cardA = document.getElementById("cardA");
+const cardB = document.getElementById("cardB");
+
+document.querySelectorAll("input").forEach(i=>{
+  i.addEventListener("input",()=>{
+    const a = calcular("A");
+    const b = calcular("B");
+    cardA.classList.toggle("highlight", a>b);
+    cardB.classList.toggle("highlight", b>a);
+  });
+});
+</script>
+
+</body>
+</html>
