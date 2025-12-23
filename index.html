@@ -1,152 +1,187 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <title>LucroFrete PRO</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #2e7d32 0%, #a5d6a7 40%, #e8f5e9 100%);
-      padding: 15px;
-    }
-    h1 {
-      text-align: center;
-      color: #1b5e20;
-      margin-bottom: 4px;
-    }
-    h2 {
-      text-align: center;
-      font-size: 14px;
-      color: #2e7d32;
-      margin-bottom: 15px;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    .card {
-      background: #fff;
-      padding: 12px;
-      border-radius: 10px;
-      box-shadow: 0 3px 8px rgba(0,0,0,.15);
-    }
-    .card h3 {
-      text-align: center;
-      margin-bottom: 6px;
-      color: #2e7d32;
-    }
-    label {
-      font-size: 12px;
-      font-weight: bold;
-    }
-    input {
-      width: 100%;
-      padding: 6px;
-      margin: 3px 0 6px 0;
-      font-size: 14px;
-    }
-    .result {
-      font-size: 13px;
-      margin-top: 6px;
-    }
-    .final {
-      font-weight: bold;
-      margin-top: 6px;
-    }
-    .melhor {
-      border: 2px solid #2e7d32;
-      background: #e8f5e9;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      font-size: 15px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 8px;
-      background: #2e7d32;
-      color: #fff;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>LucroFrete PRO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+    url("https://images.unsplash.com/photo-1503376780353-7e6692767b70");
+  background-size:cover;
+  background-attachment:fixed;
+  padding:15px;
+  color:#fff;
+}
+
+h1{
+  text-align:center;
+  margin-bottom:5px;
+}
+
+h2{
+  text-align:center;
+  font-size:14px;
+  font-weight:normal;
+  margin-bottom:20px;
+  opacity:.9;
+}
+
+.container{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.card{
+  background:rgba(255,255,255,.95);
+  color:#000;
+  padding:15px;
+  border-radius:10px;
+}
+
+.card h3{
+  text-align:center;
+  margin-top:0;
+}
+
+label{
+  font-size:13px;
+  font-weight:bold;
+}
+
+input{
+  width:100%;
+  padding:8px;
+  margin:4px 0 10px;
+  font-size:15px;
+}
+
+.result{
+  font-size:14px;
+  margin:4px 0;
+}
+
+.final{
+  font-size:16px;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.best{
+  background:#c8e6c9;
+  padding:10px;
+  border-radius:8px;
+  margin-top:10px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  font-size:16px;
+  border:none;
+  border-radius:8px;
+  background:#2e7d32;
+  color:#fff;
+  margin-top:15px;
+}
+
+@media(max-width:800px){
+  .container{grid-template-columns:1fr;}
+}
+</style>
 </head>
+
 <body>
 
 <h1>LucroFrete PRO</h1>
 <h2>Compare. Decida. Lucre.</h2>
 
-<div class="grid" id="fretes"></div>
+<div class="container">
 
-<button onclick="salvar()">💾 Salvar comparação</button>
+<!-- FRETE A -->
+<div class="card">
+<h3>Frete A</h3>
+
+<label>KM Ida</label><input id="a_kmIda" type="number">
+<label>KM Volta</label><input id="a_kmVolta" type="number">
+<label>Média (km/l)</label><input id="a_media" type="number">
+<label>Valor Litro</label><input id="a_litro" type="number">
+
+<label>Valor Tonelada</label><input id="a_ton" type="number">
+<label>Toneladas</label><input id="a_tons" type="number">
+<label>Comissão (%)</label><input id="a_comissao" type="number">
+
+<label>Pedágio</label><input id="a_pedagio" type="number">
+<label>Outros Custos</label><input id="a_outros" type="number">
+
+<div class="result" id="a_result"></div>
+</div>
+
+<!-- FRETE B -->
+<div class="card">
+<h3>Frete B</h3>
+
+<label>KM Ida</label><input id="b_kmIda" type="number">
+<label>KM Volta</label><input id="b_kmVolta" type="number">
+<label>Média (km/l)</label><input id="b_media" type="number">
+<label>Valor Litro</label><input id="b_litro" type="number">
+
+<label>Valor Tonelada</label><input id="b_ton" type="number">
+<label>Toneladas</label><input id="b_tons" type="number">
+<label>Comissão (%)</label><input id="b_comissao" type="number">
+
+<label>Pedágio</label><input id="b_pedagio" type="number">
+<label>Outros Custos</label><input id="b_outros" type="number">
+
+<div class="result" id="b_result"></div>
+</div>
+
+</div>
+
+<div class="card best" id="comparacao"></div>
+
+<button onclick="salvar()">💾 Salvar Comparação</button>
 
 <script>
-const maxHistorico = 10;
-
-function criarFrete(letra) {
-  return `
-  <div class="card" id="card${letra}">
-    <h3>Frete ${letra}</h3>
-    <label>Origem</label><input id="origem${letra}">
-    <label>Destino</label><input id="destino${letra}">
-    <label>KM Ida</label><input type="number" id="kmIda${letra}">
-    <label>KM Volta</label><input type="number" id="kmVolta${letra}">
-    <label>Média (km/l)</label><input type="number" id="media${letra}">
-    <label>Valor do Litro</label><input type="number" id="litro${letra}">
-    <label>Valor por Ton</label><input type="number" id="valorTon${letra}">
-    <label>Toneladas</label><input type="number" id="ton${letra}">
-    <label>Comissão (%)</label><input type="number" id="comissao${letra}">
-    <label>Pedágio</label><input type="number" id="pedagio${letra}">
-    <label>Outros Custos</label><input type="number" id="outros${letra}">
-    <div class="result" id="res${letra}"></div>
-  </div>`;
+function calc(prefix){
+  const g = id => Number(document.getElementById(prefix+id).value||0);
+  const km = g("_kmIda")+g("_kmVolta");
+  const litros = g("_media")>0?km/g("_media"):0;
+  const comb = litros*g("_litro");
+  const frete = g("_ton")*g("_tons");
+  const com = frete*(g("_comissao")/100);
+  const saldo = frete-comb-com-g("_pedagio")-g("_outros");
+  return {km,comb,frete,com,saldo};
 }
 
-document.getElementById('fretes').innerHTML = criarFrete('A') + criarFrete('B') + criarFrete('C');
+function atualizar(){
+  const A = calc("a");
+  const B = calc("b");
 
-document.querySelectorAll('input').forEach(i => i.addEventListener('input', atualizar));
+  document.getElementById("a_result").innerHTML =
+    `KM: ${A.km}<br>Custo: R$ ${A.comb.toFixed(2)}<br>Comissão: R$ ${A.com.toFixed(2)}<br><b>Saldo: R$ ${A.saldo.toFixed(2)}</b>`;
 
-function calcular(l) {
-  const km = (+kmIda(l) + +kmVolta(l));
-  const media = +get(`media${l}`);
-  const litros = media > 0 ? km / media : 0;
-  const custo = litros * +get(`litro${l}`);
-  const frete = +get(`valorTon${l}`) * +get(`ton${l}`);
-  const com = frete * (+get(`comissao${l}`) / 100);
-  const saldo = frete - custo - com - +get(`pedagio${l}`) - +get(`outros${l}`);
+  document.getElementById("b_result").innerHTML =
+    `KM: ${B.km}<br>Custo: R$ ${B.comb.toFixed(2)}<br>Comissão: R$ ${B.com.toFixed(2)}<br><b>Saldo: R$ ${B.saldo.toFixed(2)}</b>`;
 
-  document.getElementById(`res${l}`).innerHTML = `Origem: ${get(`origem${l}`)}<br>Destino: ${get(`destino${l}`)}<br>KM: ${km.toFixed(1)}<br>Comb: R$ ${custo.toFixed(2)}<br>Comissão: R$ ${com.toFixed(2)}<br><b>Saldo: R$ ${saldo.toFixed(2)}</b>`;
-  return saldo;
+  const melhor = A.saldo>B.saldo?"Frete A":"Frete B";
+  const diff = Math.abs(A.saldo-B.saldo).toFixed(2);
+
+  document.getElementById("comparacao").innerHTML =
+    `🔥 Melhor opção: <b>${melhor}</b><br>Diferença: R$ ${diff}`;
 }
 
-function atualizar() {
-  const a = calcular('A');
-  const b = calcular('B');
-  const c = calcular('C');
+document.querySelectorAll("input").forEach(i=>i.addEventListener("input", atualizar));
 
-  ['A','B','C'].forEach(l => document.getElementById(`card${l}`).classList.remove('melhor'));
-  const maior = Math.max(a,b,c);
-  if (maior === a) cardA.classList.add('melhor');
-  if (maior === b) cardB.classList.add('melhor');
-  if (maior === c) cardC.classList.add('melhor');
+function salvar(){
+  localStorage.setItem("LucroFreteUltima",document.getElementById("comparacao").innerHTML);
+  alert("Comparação salva!");
 }
-
-function salvar() {
-  const dados = { data: new Date().toLocaleString(), A: card('A'), B: card('B'), C: card('C') };
-  const hist = JSON.parse(localStorage.getItem('lucrofrete')) || [];
-  hist.unshift(dados);
-  if (hist.length > maxHistorico) hist.pop();
-  localStorage.setItem('lucrofrete', JSON.stringify(hist));
-  alert('Comparação salva!');
-}
-
-function card(l) {
-  return document.getElementById(`res${l}`).innerText;
-}
-
-function get(id){ return document.getElementById(id).value || 0; }
-function kmIda(l){ return +get(`kmIda${l}`); }
-function kmVolta(l){ return +get(`kmVolta${l}`); }
 </script>
 
 </body>
