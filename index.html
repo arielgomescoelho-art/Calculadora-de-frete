@@ -6,83 +6,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body {
+body{
   font-family: Arial, sans-serif;
-  background: #f4f6f8;
-  margin: 0;
-  padding: 10px;
+  background:#0f172a;
+  color:#fff;
+  margin:0;
+  padding:15px;
 }
-
-h1 {
-  text-align: center;
-  color: #0d47a1;
-  margin-bottom: 2px;
+h1{
+  text-align:center;
+  color:#22c55e;
 }
-
-.slogan {
-  text-align: center;
-  color: #555;
-  margin-bottom: 12px;
-  font-size: 14px;
+.container{
+  display:flex;
+  gap:15px;
+  overflow-x:auto;
 }
-
-.comparacao {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+.card{
+  min-width:320px;
+  background:#111827;
+  border-radius:12px;
+  padding:15px;
+  border:2px solid transparent;
 }
-
-.frete {
-  background: #ffffff;
-  border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 2px 5px rgba(0,0,0,.1);
-  border: 2px solid transparent;
+.card.highlight{
+  border-color:#22c55e;
+  box-shadow:0 0 15px #22c55e66;
 }
-
-.frete h2 {
-  text-align: center;
-  margin: 4px 0 8px;
-  color: #2e7d32;
-  font-size: 16px;
+label{
+  font-size:13px;
+  font-weight:bold;
+  display:block;
+  margin-top:8px;
 }
-
-label {
-  font-size: 12px;
-  font-weight: bold;
+input{
+  width:100%;
+  padding:7px;
+  border-radius:6px;
+  border:none;
+  margin-top:3px;
 }
-
-input {
-  width: 100%;
-  padding: 6px;
-  margin: 3px 0 6px;
-  font-size: 13px;
+.result{
+  margin-top:6px;
+  font-size:14px;
 }
-
-.result {
-  font-size: 12px;
-  margin: 3px 0;
-}
-
-.saldo {
-  margin-top: 6px;
-  padding: 6px;
-  border-radius: 5px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.melhor {
-  border-color: #2e7d32;
-  background: #e8f5e9;
-}
-
-.melhor .saldo {
-  color: #1b5e20;
-}
-
-.pior .saldo {
-  color: #b71c1c;
+.saldo{
+  margin-top:10px;
+  font-size:18px;
+  font-weight:bold;
+  color:#22c55e;
 }
 </style>
 </head>
@@ -90,141 +62,95 @@ input {
 <body>
 
 <h1>LucroFrete PRO</h1>
-<div class="slogan">Compare. Decida. Lucre.</div>
 
-<div class="comparacao">
+<div class="container">
 
 <!-- FRETE A -->
-<div class="frete" id="cardA">
-<h2>Frete A</h2>
+<div class="card" id="cardA">
+<h3>Frete A</h3>
 
-<label>Origem</label>
-<input id="origemA">
+<label>KM Ida</label><input id="kmIdaA" type="number">
+<label>KM Volta</label><input id="kmVoltaA" type="number">
+<label>Média km/l</label><input id="mediaA" type="number">
+<label>Valor do Litro</label><input id="litroA" type="number">
 
-<label>Destino</label>
-<input id="destinoA">
+<label>Valor por Tonelada</label><input id="valorTonA" type="number">
+<label>Toneladas</label><input id="tonA" type="number">
+<label>Comissão (%)</label><input id="comA" type="number">
 
-<label>KM Ida</label>
-<input type="number" id="kmIdaA">
+<label>Pedágio</label><input id="pedA" type="number">
+<label>Outros Custos</label><input id="outA" type="number">
 
-<label>KM Volta</label>
-<input type="number" id="kmVoltaA">
-
-<label>Média (km/l)</label>
-<input type="number" id="mediaA">
-
-<label>Valor Litro (R$)</label>
-<input type="number" id="litroA">
-
-<label>Valor Tonelada (R$)</label>
-<input type="number" id="tonA">
-
-<label>Toneladas</label>
-<input type="number" id="qtdA">
-
-<label>Comissão (%)</label>
-<input type="number" id="comA">
-
-<label>Pedágio</label>
-<input type="number" id="pedA">
-
-<label>Outros Custos</label>
-<input type="number" id="outA">
-
-<div class="result" id="resA"></div>
+<div class="result" id="kmA"></div>
+<div class="result" id="freteBrutoA"></div>
+<div class="result" id="dieselA"></div>
+<div class="result" id="comissaoA"></div>
 <div class="saldo" id="saldoA"></div>
 </div>
 
 <!-- FRETE B -->
-<div class="frete" id="cardB">
-<h2>Frete B</h2>
+<div class="card" id="cardB">
+<h3>Frete B</h3>
 
-<label>Origem</label>
-<input id="origemB">
+<label>KM Ida</label><input id="kmIdaB" type="number">
+<label>KM Volta</label><input id="kmVoltaB" type="number">
+<label>Média km/l</label><input id="mediaB" type="number">
+<label>Valor do Litro</label><input id="litroB" type="number">
 
-<label>Destino</label>
-<input id="destinoB">
+<label>Valor por Tonelada</label><input id="valorTonB" type="number">
+<label>Toneladas</label><input id="tonB" type="number">
+<label>Comissão (%)</label><input id="comB" type="number">
 
-<label>KM Ida</label>
-<input type="number" id="kmIdaB">
+<label>Pedágio</label><input id="pedB" type="number">
+<label>Outros Custos</label><input id="outB" type="number">
 
-<label>KM Volta</label>
-<input type="number" id="kmVoltaB">
-
-<label>Média (km/l)</label>
-<input type="number" id="mediaB">
-
-<label>Valor Litro (R$)</label>
-<input type="number" id="litroB">
-
-<label>Valor Tonelada (R$)</label>
-<input type="number" id="tonB">
-
-<label>Toneladas</label>
-<input type="number" id="qtdB">
-
-<label>Comissão (%)</label>
-<input type="number" id="comB">
-
-<label>Pedágio</label>
-<input type="number" id="pedB">
-
-<label>Outros Custos</label>
-<input type="number" id="outB">
-
-<div class="result" id="resB"></div>
+<div class="result" id="kmB"></div>
+<div class="result" id="freteBrutoB"></div>
+<div class="result" id="dieselB"></div>
+<div class="result" id="comissaoB"></div>
 <div class="saldo" id="saldoB"></div>
 </div>
 
 </div>
 
 <script>
-function calcular(prefix) {
-  const km = (+document.getElementById("kmIda"+prefix).value||0) +
-             (+document.getElementById("kmVolta"+prefix).value||0);
+function calcular(prefix){
+  const kmTotal =
+    (+document.getElementById("kmIda"+prefix).value||0) +
+    (+document.getElementById("kmVolta"+prefix).value||0);
+
   const media = +document.getElementById("media"+prefix).value||0;
-  const litros = media>0 ? km/media : 0;
-  const combustivel = litros*(+document.getElementById("litro"+prefix).value||0);
-  const frete = (+document.getElementById("ton"+prefix).value||0) *
-                (+document.getElementById("qtd"+prefix).value||0);
-  const com = frete*(+document.getElementById("com"+prefix).value||0)/100;
+  const litro = +document.getElementById("litro"+prefix).value||0;
+  const valorTon = +document.getElementById("valorTon"+prefix).value||0;
+  const ton = +document.getElementById("ton"+prefix).value||0;
+  const com = +document.getElementById("com"+prefix).value||0;
   const ped = +document.getElementById("ped"+prefix).value||0;
   const out = +document.getElementById("out"+prefix).value||0;
-  const saldo = frete - combustivel - com - ped - out;
 
-  document.getElementById("res"+prefix).innerText =
-    `KM: ${km.toFixed(1)} | Custos: R$ ${(combustivel+com+ped+out).toFixed(2)}`;
+  const litros = media>0 ? kmTotal/media : 0;
+  const diesel = litros*litro;
 
-  const saldoEl = document.getElementById("saldo"+prefix);
-  saldoEl.innerText = `Saldo: R$ ${saldo.toFixed(2)}`;
-  saldoEl.dataset.valor = saldo;
+  const freteBruto = valorTon*ton;
+  const comissao = freteBruto*(com/100);
 
-  comparar();
-}
+  const saldo = freteBruto - diesel - comissao - ped - out;
 
-function comparar() {
-  const a = parseFloat(document.getElementById("saldoA").dataset.valor||0);
-  const b = parseFloat(document.getElementById("saldoB").dataset.valor||0);
+  document.getElementById("km"+prefix).innerText = `KM Total: ${kmTotal.toFixed(1)}`;
+  document.getElementById("freteBruto"+prefix).innerText = `Frete Bruto: R$ ${freteBruto.toFixed(2)}`;
+  document.getElementById("diesel"+prefix).innerText = `Diesel: R$ ${diesel.toFixed(2)}`;
+  document.getElementById("comissao"+prefix).innerText = `Comissão: R$ ${comissao.toFixed(2)}`;
+  document.getElementById("saldo"+prefix).innerText = `Lucro Líquido: R$ ${saldo.toFixed(2)}`;
 
-  const cardA = document.getElementById("cardA");
-  const cardB = document.getElementById("cardB");
-
-  cardA.classList.remove("melhor","pior");
-  cardB.classList.remove("melhor","pior");
-
-  if (a > b) {
-    cardA.classList.add("melhor");
-    cardB.classList.add("pior");
-  } else if (b > a) {
-    cardB.classList.add("melhor");
-    cardA.classList.add("pior");
-  }
+  return saldo;
 }
 
 document.querySelectorAll("input").forEach(i=>{
-  i.addEventListener("input", ()=>{
-    calcular("A");
-    calcular("B");
+  i.addEventListener("input",()=>{
+    const saldoA = calcular("A");
+    const saldoB = calcular("B");
+
+    document.getElementById("cardA").classList.toggle("highlight", saldoA>saldoB);
+    document.getElementById("cardB").classList.toggle("highlight", saldoB>saldoA);
   });
 });
 </script>
